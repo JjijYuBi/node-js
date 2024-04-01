@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <meta name="color-scheme" content="light dark" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
+</head>
+<style>
+
+</style>
+
+<body>
+    <main class="container">
+        <div id="app">
+            <h1>로그인 페이지</h1>
+            <div>    
+                아이디 : <input v-model="userId"> 
+            </div>
+
+            <div>    
+                비밀번호 : <input v-model="pwd">
+            </div>
+    
+            <button @click="fnLogin">로그인</button>
+        </div>
+    </main>
+
+</body>
+
+</html>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            userId : "",
+            pwd : "",
+           
+        },
+        methods: {
+            fnLogin : async function(){
+                var self = this;
+                const response = await fetch(`http://localhost:3000/login.dox?userId=${self.userId}&pwd=${self.pwd}`);
+                const jsonData = await response.json();
+                console.log(jsonData);
+                
+                if (jsonData.msg == "success") {
+                    alert("로그인 성공");
+                   location.href="http://localhost:3000/boardList";
+                    
+                }else{
+                    alert("로그인 실패");
+                }
+               
+            }
+
+        },
+
+        created: function () {
+            var self = this;
+            
+
+
+        }
+
+    });
+</script>

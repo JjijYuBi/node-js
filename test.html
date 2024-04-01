@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="movie">
+    <button onclick="fnSearchMovie()">검색</button>
+</body>
+</html>
+<script>
+
+class MovieAPI {
+    getMovieInfo(keyword) {
+        return new Promise((resolve,reject)=>{
+            var movies = [
+			{movie : "인셉션", rating: 8.8 },
+			{movie : "파묘", rating: 9.0 }
+		];
+        for(var i = 0 ; i<movies.length;i++){
+            if(keyword == movies[i].movie){
+                resolve(movies[i].rating);
+            }
+        }
+        reject("영화를 찾을 수 없습니다.");
+    }
+        );
+    }  // 주어진 키워드를 사용하여 영화 정보를 가져오고, 평점을 Promise로 반환
+}
+
+
+async function fnSearchMovie(keyword) {
+    try{
+        var movieAPI = new MovieAPI();
+        var keyword = document.getElementById("movie").value;
+        var search = await movieAPI.getMovieInfo(keyword);
+        alert(keyword + "의 평점은" + search + "입니다.");
+    }
+    catch(error){
+        alert(error);
+    }
+}
+
+
+
+
+</script>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div>
+        <input id ="searchUserId" value="<%= jsonData.id %>" hidden>
+        <!-- <button onclick="searchUser()">검색</button> -->
+        <div>
+        아이디 :<span id="searchId"> </span><br>
+        이름 :<span id="searchName"> </span><br>
+        주소 :<span id="searchAddr"></span><br>
+    </div>
+
+    </div>
+
+</body>
+</html>
+<script>
+
+    async function searchUser() {
+        var userId = document.querySelector("#searchUserId").value;
+        const response = await fetch(`http://localhost:3000/search?id=${userId}`);
+        const jsonData = await response.json();
+        console.log(jsonData);
+        if(jsonData.msg == "success"){
+            document.querySelector("#searchId").innerHTML = jsonData.results[0].USERID;
+        document.querySelector("#searchName").innerHTML = jsonData.results[0].userName;
+        document.querySelector("#searchAddr").innerHTML = jsonData.results[0].addr;
+        }else{
+            document.querySelector("#searchId").innerHTML = "검색결과 없음";
+        document.querySelector("#searchName").innerHTML = "검색결과 없음";
+        document.querySelector("#searchAddr").innerHTML = "검색결과 없음";
+        // 이부분에서 location.href= "login" 해주면 될것같음. 세션이 만료되었다 가정 *
+        }
+
+        
+        
+    }
+
+    searchUser();
+
+
+</script>

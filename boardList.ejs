@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <meta name="color-scheme" content="light dark" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
+</head>
+<style>
+    table,
+    th,
+    tr,
+    td {
+        border: 2px solid black;
+        border-collapse: collapse;
+        padding: 5px;
+        text-align: center;
+    }
+</style>
+
+<body>
+    <main class="container">
+        <div id="app">
+            <h1>게시판입니다~</h1>
+            <button @click="fnAdd">글쓰기</button>
+            <table>
+                <tr>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+
+                </tr>
+                <tr v-for="item in boardList">
+                    <td>{{item.boardNo}}</td>
+                    <td><a href="javascript:;" @click="boardView(item.boardNo)">{{item.title}}</a></td>
+                    <td>{{item.userId}}</td>
+                    <td>{{item.cdatetime}}</td>
+
+
+                </tr>
+            </table>
+
+
+        </div>
+    </main>
+
+</body>
+
+</html>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            boardList: []
+        },
+        methods: {
+            searchBoard: async function () {
+                var self = this;
+                const response = await fetch("http://localhost:3000/boardListSearch");
+                const jsonData = await response.json();
+                console.log(jsonData);
+                self.boardList = jsonData;
+            },
+
+            boardView: async function (boardNo) {
+               location.href=`http://localhost:3000/boardView/${boardNo}`
+            },
+            fnAdd : function(){
+                location.href="http://localhost:3000/boardAdd";
+            }
+
+        },
+
+        created: function () {
+            var self = this;
+            this.searchBoard();
+
+
+        }
+
+    });
+</script>

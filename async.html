@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Document</title>
+   
+</head>
+<body>
+아이디 : <input type="text" id="id">    
+패스워드 : <input type="text" id="pwd">    
+<button onclick="fnLogin()">로그인</button>
+</body>
+</html>
+<script>
+class Login{
+    checkUser(id,pwd){
+        return new Promise((resolve,reject)=>{
+            if((id=="test"&&pwd=="1234")||
+            id=="admin"&&pwd=="admin"){
+            resolve(id);
+        }else{
+            reject(new Error('에러 발생!'));
+        }    
+        });
+    }
+    getStatus(id){
+        return new Promise((resolve,reject)=>{
+            if(id=="admin"){
+                resolve("어드민");
+            }else{
+                if(id==undefined){
+                    reject(new Error("에러 발생!"));
+                }
+                reject("일반유저");
+            }
+        })
+    }
+}
+async function fnLogin(){
+try{
+    var login = new Login;
+    var id = document.getElementById("id").value;
+    var pwd = document.getElementById("pwd").value;
+    var id = await login.checkUser(id,pwd);
+    alert(id + "님 환영합니다.");
+    var status = await login.getStatus(id);
+    alert(status + "입니다.");
+}
+catch(error){
+    alert(error);
+}
+}
+</script>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <meta name="color-scheme" content="light dark" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
+</head>
+<style>
+    table,
+    th,
+    tr,
+    td {
+        border: 2px solid black;
+        border-collapse: collapse;
+        padding: 5px;
+        text-align: center;
+    }
+</style>
+
+<body>
+    <main class="container">
+        <div id="app">
+            <h1>글쓰기</h1>
+            <div>
+                제목이여 : <input placeholder="제목" v-model="title">
+            </div>
+            <div>
+                내용이여 : <textarea cols="30" rows="10" v-model="contents"></textarea>
+            </div>
+          
+           
+          <button @click="fnAdd">완료</button>
+          <button @click="fnMoveList">돌아가기</button>
+
+
+    </main>
+
+</body>
+
+</html>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            title : "",
+            contents : "",
+        
+
+        },
+        methods: {
+            fnAdd: async function () {
+                var self = this;
+                const response = await fetch(`http://localhost:3000/boardAdd.dox?title=${self.title}&contents=${self.contents}`);
+                const jsonData = await response.json();
+                console.log(jsonData);
+                if (jsonData.msg == "success") {
+                    alert("작성완료");
+                }
+
+
+            },
+            fnMoveList: function () {
+                location.href = "http://localhost:3000/boardList";
+            }
+        },
+
+        created: function () {
+            var self = this;
+
+
+        }
+
+    });
+</script>

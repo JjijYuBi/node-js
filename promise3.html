@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Document</title>
+    <link href="/html/img/icon-1.jpg" rel="shortcut icon" type="image/x-icon">
+</head>
+<body>
+아이디 : <input type="text" id="id">    
+패스워드 : <input type="text" id="pwd">    
+<button onclick="fnLogin()">로그인</button>
+</body>
+</html>
+<script>
+class Login{
+    checkUser(id,pwd){
+        return new Promise((resolve,reject)=>{
+            if((id=="test"&&pwd=="1234")||
+            id=="admin"&&pwd=="admin"){
+            resolve(id);
+        }else{
+            reject(new Error('에러 발생!'));
+        }    
+        });
+    }
+    getStatus(id){
+        return new Promise((resolve,reject)=>{
+
+            if(id=="admin"){
+                resolve("어드민");
+            }else{
+                if(id==undefined){
+                    reject(new Error("에러 발생!"));
+                }
+                reject("일반유저");
+            }
+        })
+        
+    }
+}
+function fnLogin(){
+    var login = new Login;
+    var id = document.getElementById("id").value;
+    var pwd = document.getElementById("pwd").value;
+login
+.checkUser(id,pwd)
+.then(id =>{
+    alert(id+"님 환영합니다!");
+    return login.getStatus(id);
+})
+.then(status=>{alert(status+"입니다!")})
+.catch(error =>alert(error));
+}
+
+
+
+
+</script>
